@@ -2,16 +2,16 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 var knex = require('knex');
-var test = require("../../../queries.js");
+var queries = require("../../../queries.js");
 
 //Render Book list
 router.get('/', function(req, res, next){
 
   var promises = [];
 
-  promises.push(test.getAllBooks());
+  promises.push(queries.getAllBooks());
 
-  promises.push(test.getAllAuthors());
+  promises.push(queries.getAllAuthors());
 
   return Promise.all(promises)
 
