@@ -8,7 +8,20 @@
   <div class="container">
 
     <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
+    {% for book in books %}
+    <div class="container">
+        {{book.title}}
+        {% for author in authors %}
+            {% if author.book_id == book.id %}
+                {% for name in author.name%}
+                    <a href="/authors/{{author.id[loop.index0]}}">{{name}}</a>
+                {%endfor%}
+            {% endif %}
+        {%endfor%}
+        {{book.name}}
+    </div>
+
+    {%endfor%}
 
   </div>
 

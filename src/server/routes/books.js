@@ -16,6 +16,8 @@ router.get('/', function(req, res, next){
   return Promise.all(promises)
 
   .then( function (result) {
+    console.log('books', result[0])
+    console.log('authors', result[1].rows);
     res.render('books', { title: 'Galvanize Reads | Books',
                           books: result[0],
                           authors: result[1].rows }
