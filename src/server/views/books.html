@@ -10,15 +10,23 @@
     <h1>{{ title }}</h1>
     {% for book in books %}
     <div class="container">
-        {{book.title}}
+        <div class="col-lg-2">
+            <img class="cover" src={{book.img_url}}>
+        </div>
+        <div class="col-lg-8">
+        <h2>{{book.title}}</h2>
         {% for author in authors %}
             {% if author.book_id == book.id %}
+            <p>
                 {% for name in author.name%}
                     <a href="/authors/{{author.id[loop.index0]}}">{{name}}</a>
                 {%endfor%}
+            </p>
             {% endif %}
         {%endfor%}
-        {{book.name}}
+        <p>{{book.name}}</p>
+        <p>{{book.description}}</p>
+        </div>
     </div>
 
     {%endfor%}
