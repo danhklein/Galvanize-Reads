@@ -3,6 +3,28 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.container {
+    display: flex;
+    height: 1000px;
+
+    text-align: center;
+
+}
+
+.box {
+    margin: 10px;
+    background-color: blue;
+    font-size: 24px;
+
+    align-items: center;
+    color: white;
+    width: 50%;
+    height: 300px;
+    padding: 10px;
+   /* justify-content: center*/
+}
+
+
 a {
   color: #00B7FF;
 }
