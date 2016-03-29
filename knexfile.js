@@ -1,12 +1,13 @@
 module.exports = {
+
   development: {
     client: 'pg',
-    connection: 'postgres://localhost:5432/reads_galvanize'
+    connection: 'postgres://localhost/reads_galvanize'
   },
 
   production: {
     client: 'pg',
-    connection: 'postgres://'
+    connection: process.env.DATABASE_URL + '?ssl=true'
   }
-};
 
+};
