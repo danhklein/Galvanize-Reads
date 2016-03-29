@@ -34,7 +34,13 @@ module.exports = {
     },
     //Get Single Author
     getAuthor: function(author_id) {
-        return Authors.where('id', author_id)
+        return Authors().where('id', author_id);
+    },
+    deleteBook: function(book_id) {
+        return Books().where('id', book_id).del();
+    },
+    deleteBookFromCatalog: function(book_id) {
+        return knex('catalog').where('book_id', book_id).del();
     }
 
 }
