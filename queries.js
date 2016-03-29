@@ -17,7 +17,7 @@ module.exports = {
     },
     //Get all Authors
     getAllAuthors : function() {
-    return knex.raw("SELECT c.book_id, array_agg(' ' || a.first || ' ' || a.last) as name FROM catalog c INNER JOIN authors a ON (c.auth_id = a.id) GROUP BY c.book_id ORDER BY c.book_id;");
+    return knex.raw("SELECT c.book_id, array_agg(' ' || a.f_name || ' ' || a.l_name) as name, array_agg(a.id) as id FROM catalog c INNER JOIN authors a ON (c.author_id = a.id) GROUP BY c.book_id ORDER BY c.book_id;");
     },
     //Get single book
     getBook: function(book_id) {
