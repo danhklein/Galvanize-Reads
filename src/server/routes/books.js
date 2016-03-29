@@ -8,17 +8,12 @@ var queries = require("../../../queries.js");
 router.get('/', function(req, res, next){
 
   var promises = [];
-
   promises.push(queries.getAllBooks());
-
   promises.push(queries.getAllAuthors());
-
   return Promise.all(promises)
 
   .then( function (result) {
-    console.log('books', result[0])
-    console.log('authors', result[1].rows);
-    res.render('books', { title: 'Galvanize Reads | Books',
+    res.render('books', { title: 'Galvanize Reads | Book List',
                           books: result[0],
                           authors: result[1].rows }
     );
@@ -37,16 +32,39 @@ router.get('/', function(req, res, next){
 //   res.render('index', { title: 'Express' });
 // });
 
-// //Show Single Book
-// router.get('/:id', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+//Show Single Book
+router.get('/:id', function(req, res, next) {
+    var promises = [];
+    promises.push(queries.getBook(req.params.id));
+    promises.push(queries.getAllAuthors());
+    return Promise.all(promises)
+
+    .then( function (result) {
+    res.render('showbooks', { title: 'Galvanize Reads',
+                          books: result[0],
+                          authors: result[1].rows });
+  })
+
+  .catch( function (error) { console.log(error); return error; });
+
+});
+
+// //Delete single book
+router.post('/delete/:id', function (req, res, next) {
+    var promises = [];
+    promises.push(queries.deleteBook(req.params.id));
+    promises.push(queries.deleteBookFromCatalog(req.params.id));
+    return Promise.all(promises)
+    .then(function(result) {
+      res.redirect('/books')
+    });
+
+})
 
 // //Post form to create new book
 // router.post('/new')
 
-// //Delete single book
-// router.post('/delete/:id')
+
 
 // //Edit single book
 // router.post('/edit/:id')

@@ -21,7 +21,9 @@ module.exports = {
     },
     //Get single book
     getBook: function(book_id) {
-        return Books().where('id', book_id)
+     return Books()
+        .select('books.id', 'books.title', 'books.description', 'books.img_url', 'genres.name')
+        .innerJoin('genres', 'books.genre_id', 'genres.id').where('books.id', book_id);
     },
 
     //Get single genre
