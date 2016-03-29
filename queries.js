@@ -19,6 +19,7 @@ module.exports = {
     getAllAuthors : function() {
     return knex.raw("SELECT c.book_id, array_agg(' ' || a.f_name || ' ' || a.l_name) as name, array_agg(a.id) as id FROM catalog c INNER JOIN authors a ON (c.author_id = a.id) GROUP BY c.book_id ORDER BY c.book_id;");
     },
+
     //Get single book
     getBook: function(book_id) {
      return Books()
@@ -43,6 +44,19 @@ module.exports = {
     },
     deleteBookFromCatalog: function(book_id) {
         return knex('catalog').where('book_id', book_id).del();
+    },
+    addBook: function (newBook) {
+        return Books().insert({
+            title: newBook.title,
+            img_url: newBook.img_url,
+            description: newBook.description,
+            genre_id: newBook.genre_id
+        }).returning('id');
+    },
+    addAuthorstoBook: function(book_id, author_id) {
+        return knex('catalog').insert({
+            book_id: book_id,
+            author_id: author_id });
     }
 
 }

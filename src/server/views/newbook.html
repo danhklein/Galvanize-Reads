@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+  <div class="container">
+  <form method="post" action="/books/new">
+      <label for="title">Title</label>
+      <input type="text" name="title">
+      <label for="title">Image Url</label>
+      <input type="url" name="img_url">
+      <label for="description">Book Description</label>
+      <textarea name="description" rows="4" cols="50">
+      <select id="genres" name="genres">
+          {% for genre in genres %}
+            <option value={{genre.id}}>{{genre.name}}
+            </option>
+          {% endfor %}
+      </select>
+      <select id="authors" name="authors" multiple>
+          {% for author in authors %}
+            <option value={{author.id}}>{{author.f_name}} {{author.l_name}}</option>
+           {% endfor %}
+      </select>
+      <a href="/authors/new"><button>Add New Author!</button></a>
+
+      <input type="submit" value="Add a new Book!">
+
+  </form>
+
+  </div>
+
+{% endblock %}
