@@ -49,47 +49,34 @@ module.exports = {
     deleteBookFromCatalog: function(book_id) {
         return knex('catalog').where('book_id', book_id).del();
     },
-    // addBook: function (newBook) {
-    //     return Books().insert({
-    //         title: newBook.title,
-    //         img_url: newBook.img_url,
-    //         description: newBook.description,
-    //         genre_id: newBook.genre
-    //     }).returning('id');
-    // },
-    addAuthorstoBook: function(book_id, author_id) {
-        return knex('catalog').insert({
-            book_id: book_id,
-            author_id: author_id });
-    },
-     addBook: function(body) {
-    if (!Array.isArray(body.authors)) {
-    body.authors = [body.authors];
+    //Add new book and add it and authors to catalog
+    addBook: function(body) {
+        if (!Array.isArray(body.authors)) {
+            body.authors = [body.authors];
         }
-  return Books().insert({
-    title: body.title,
-    genre_id: body.genres,
-    description: body.description,
-    img_url: body.img_url
-  }).returning('id')
-  .then(function(book) {
-    var author_ids = body.authors || [body.authors];
-    var authorPromises = author_ids.map(function(id) {
-      return Authors().where('id', id).returning('id');
-    });
-    return Promise.all(authorPromises).then(function(ids) {
-      var bookObject = ids.map(function(id) {
-         return {
-          book_id: book[0],
-          author_id: id[0].id
-        };
-      });
-      console.log('Book!', bookObject);
-      return knex('catalog').insert(bookObject).returning('book_id');
-    });
-    // map over authors and make new query for each author, then get array of promises.
-    // then promise.all and do something with that.  the result is an array of what im returning.
-  });
-}
+        return Books().insert({
+            title: body.title,
+            genre_id: body.genres,
+            description: body.description,
+            img_url: body.img_url
+        })
+        .returning('id')
+        .then(function(book) {
+            var author_ids = body.authors || [body.authors];
+            var authorPromises = author_ids.map(function(id) {
+            return Authors().where('id', id).returning('id');
+            });
+            return Promise.all(authorPromises).then(function(ids) {
+                var catObject = ids.map(function(id) {
+                    return {
+                        book_id: book[0],
+                        author_id: id[0].id
+                    };
+                });
+
+                return knex('catalog').insert(catObject).returning('book_id');
+            });
+        });
+    }
 
 }
